@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}ATS Results — {{ score }}/100{% endblock %}
+
+{% block head %}
+<style>
+  /* Score ring animation on load */
+  .ring-fill { transition: stroke-dasharray 1s cubic-bezier(0.4,0,0.2,1) 0.2s; }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="dashboard-main">
+
+  <a href="/" class="back-btn">
+    ← Analyze another resume
+  </a>
+
+  <!-- TOP: Score + Verdict -->
+  <div class="dash-top">
+    {% set circumference = 251.2 %}
+    {% set filled = (score / 100) * circumference %}
+    {% set color = '#60d4c8' if score >= 75 else ('#c8f062' if score >= 55 else ('#f0b060' if score >= 35 else '#f06060')) %}
+
+    <div class="score-ring-wrap">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"/>
+        <circle cx="60" cy="60" r="40" fill="none"
+          stroke="{{ color }}" stroke-width="9"
+          stroke-dasharray="{{ filled }} {{ circumference - filled }}"
+          stroke-dashoffset="{{ circumference / 4 }}"
+          stroke-linecap="round"
+          class="ring-fill"/>
+      </svg>
+      <div class="score-inner">
+        <span class="score-number">{{ score }}</span>
+        <span class="score-label">/ 100</span>
+      </div>
+    </div>
+
+    <div class="score-meta">
+      {% set vclass = 'verdict-strong' if verdict == 'Strong Match' else ('verdict-good' if verdict == 'Good Match' else ('verdict-weak' if verdict == 'Weak Match' else 'verdict-poor')) %}
+      <div class="verdict-badge {{ vclass }}">
+        <span class="verdict-dot"></span>{{ verdict }}
+      </div>
+
+      <h2>{{ job_title_match }}</h2>
+
+      {% set exp_color = '#60d4c8' if experience_match == 'Perfect Fit' else ('#5b8dee' if experience_match == 'Overqualified' else ('#f0b060' if experience_match == 'Slight Stretch' else '#f06060')) %}
+      <span class="exp-badge" style="border-color: {{ exp_color }}33; color: {{ exp_color }};">
+        {{ experience_match }}
+      </span>
+
+      <p class="score-summary">{{ summary }}</p>
+    </div>
+  </div>
+
+  <!-- GRID ROW 1: Skill Match + Keywords -->
+  <div class="dash-grid">
+
+    <!-- Skill Breakdown -->
+    <div class="dash-card">
+      <div class="card-title">Dimension Breakdown</div>
+      <div class="match-rows">
+        {% for label, key in [('Technical Skills', 'technical'), ('Experience', 'experience'), ('Education', 'education'), ('Keywords', 'keywords')] %}
+          {% set pct = skill_match[key] %}
+          {% set bar_color = '#60d4c8' if pct >= 75 else ('#c8f062' if pct >= 55 else ('#f0b060' if pct >= 35 else '#f06060')) %}
+          <div class="match-row">
+            <span class="match-row-label">{{ label }}</span>
+            <div class="match-bar-track">
+              <div class="match-bar-fill" style="width: {{ pct }}%; background: {{ bar_color }};"></div>
+            </div>
+            <span class="match-row-pct" style="color: {{ bar_color }};">{{ pct }}%</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Keywords -->
+    <div class="dash-card">
+      <div class="card-title">Keyword Analysis</div>
+
+      {% if matched_keywords %}
+        <p class="kw-sublabel" style="margin-top:0;">Found in your resume</p>
+        <div class="kw-grid">
+          {% for kw in matched_keywords %}
+            <span class="kw-chip kw-present">{{ kw }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if missing_keywords %}
+        <p class="kw-sublabel">Missing — add these</p>
+        <div class="kw-grid">
+          {% for kw in missing_keywords %}
+            <span class="kw-chip kw-missing">{{ kw }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- GRID ROW 2: Strengths + Improvements -->
+  <div class="dash-grid">
+
+    <div class="dash-card">
+      <div class="card-title">Strengths</div>
+      <div class="item-list">
+        {% for s in strengths %}
+          <div class="item-row strength">
+            <span class="item-icon">✓</span>
+            <span>{{ s }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="card-title">How to Improve</div>
+      <div class="item-list">
+        {% for tip in improvements %}
+          <div class="item-row">
+            <span class="item-icon">→</span>
+            <span>{{ tip }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Section Feedback -->
+  {% if section_feedback %}
+  <div class="dash-card full-width" style="margin-bottom: 1.5rem;">
+    <div class="card-title">Section-by-Section Feedback</div>
+    <div class="section-fb-grid">
+      {% for label, key in [('Summary / Objective', 'summary'), ('Work Experience', 'experience'), ('Skills', 'skills'), ('Education', 'education')] %}
+        <div class="section-fb-item">
+          <h4>{{ label }}</h4>
+          <p>{{ section_feedback.get(key, '—') }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ATS Formatting Tips -->
+  {% if ats_tips %}
+  <div class="dash-card full-width" style="margin-bottom: 1.5rem;">
+    <div class="card-title">ATS Formatting Tips</div>
+    {% for tip in ats_tips %}
+      <div class="tip-item">
+        <span class="tip-num">{{ loop.index }}</span>
+        <span>{{ tip }}</span>
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</main>
+{% endblock %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}ATS Resume Analyzer{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-mark">
+    <div class="logo-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <rect x="3" y="2" width="16" height="18" rx="2" stroke="#0d0e12" stroke-width="1.5"/>
+        <line x1="7" y1="7" x2="15" y2="7" stroke="#0d0e12" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="7" y1="11" x2="15" y2="11" stroke="#0d0e12" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="7" y1="15" x2="11" y2="15" stroke="#0d0e12" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <h1>ATS Analyzer</h1>
+      <p>AI-Powered Resume Scoring</p>
+    </div>
+  </div>
+  <div class="status-pill">
+    <span class="status-dot"></span>
+    Claude Powered · Live
+  </div>
+</header>
+
+{% block content %}{% endblock %}
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

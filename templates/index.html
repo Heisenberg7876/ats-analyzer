@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}ATS Resume Analyzer — Upload{% endblock %}
+
+{% block content %}
+<main class="index-main">
+
+  <div class="index-hero">
+    <h2>Score your resume with <em>AI precision</em></h2>
+    <p>Upload your resume and paste a job description. Claude will analyze your ATS score, keyword match, and give you actionable improvements.</p>
+  </div>
+
+  {% if error %}
+  <div class="error-banner">{{ error }}</div>
+  {% endif %}
+
+  <div class="form-card">
+    <form id="analyze-form" action="/analyze" method="POST" enctype="multipart/form-data">
+
+      <!-- Resume Upload -->
+      <div class="field-group">
+        <label class="field-label">01 — Resume File</label>
+
+        <div id="drop-zone" class="drop-zone">
+          <div class="drop-zone-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 14V4M11 4L8 7M11 4L14 7" stroke="#7a7d8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 14v3a1 1 0 001 1h12a1 1 0 001-1v-3" stroke="#7a7d8a" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Drop your resume here</h3>
+          <p>PDF, DOCX, or TXT · max 10MB · or click to browse</p>
+        </div>
+
+        <div id="file-preview" class="file-preview">
+          <div class="file-preview-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="2" y="1" width="10" height="12" rx="1.5" stroke="#c8f062" stroke-width="1.2"/>
+              <line x1="4.5" y1="4.5" x2="9.5" y2="4.5" stroke="#c8f062" stroke-width="1" stroke-linecap="round"/>
+              <line x1="4.5" y1="7" x2="9.5" y2="7" stroke="#c8f062" stroke-width="1" stroke-linecap="round"/>
+              <line x1="4.5" y1="9.5" x2="7" y2="9.5" stroke="#c8f062" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span id="file-preview-name" class="file-preview-name">resume.pdf</span>
+          <button type="button" id="remove-file" class="remove-file" title="Remove">✕</button>
+        </div>
+
+        <input type="file" id="resume-input" name="resume" accept=".pdf,.docx,.txt" required style="display:none;"/>
+      </div>
+
+      <!-- Job Description -->
+      <div class="field-group">
+        <label class="field-label" for="job_desc">02 — Job Description</label>
+        <textarea
+          id="job_desc"
+          name="job_desc"
+          class="job-input"
+          placeholder="Paste the full job description here — include required skills, responsibilities, and qualifications for the most accurate ATS matching..."
+          required
+          minlength="30"
+        ></textarea>
+      </div>
+
+      <button type="submit" id="submit-btn" class="submit-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="#0d0e12" stroke-width="1.5"/>
+          <path d="M5.5 8l1.5 1.5L10.5 6" stroke="#0d0e12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Analyze Resume
+      </button>
+
+    </form>
+  </div>
+
+</main>
+{% endblock %}

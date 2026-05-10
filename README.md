@@ -12,6 +12,21 @@ AI-powered resume scoring using Claude. Upload your resume and a job description
 - Experience level match (Perfect Fit / Overqualified / Slight Stretch / Underqualified)
 - Supports PDF, DOCX, and TXT resumes
 
+## Live Demo
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/a25bd984-e858-4041-8424-3341b26acde6" />
+
+---
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/fac1a71b-07d2-4859-bbac-cd664da645ba" />
+
+---
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/3fe8cd29-1af6-4567-9845-0c506b940afb" />
+
+---
+ 
+
 ## Project Structure
 
 ```

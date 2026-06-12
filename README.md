@@ -1,6 +1,6 @@
 # ATS Resume Analyzer + Job Matching System
 
-AI-powered resume scoring using Claude. Upload your resume and a job description to get an ATS score, keyword analysis, strengths, improvements, and section-by-section feedback.
+AI-powered resume scoring. Upload your resume and a job description to get an ATS score, keyword analysis, strengths, improvements, and section-by-section feedback.
 
 ## Features
 

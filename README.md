@@ -76,7 +76,6 @@ cp .env.example .env
 python app.py
 ```
 
-Open http://localhost:5000
 
 ## Environment Variables
 
